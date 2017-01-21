@@ -1,0 +1,13 @@
+#!/bin/bash
+
+cat <<EOF
+This is a S2I Swift 3.0 CentOS builder image that can turn Swift code into built applications in docker images. To use it, install S2I: https://github.com/openshift/source-to-image
+
+Sample invocation:
+
+$ s2i build https://github.com/dudash/s2i-swift.git \\
+    --context-dir=/3.0/test/test-app/ openshift/swift-30-centos7 swift-test-app
+
+You can then run the resulting image via:
+$ docker run swift-test-app
+EOF
