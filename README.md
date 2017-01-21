@@ -1,10 +1,13 @@
 Swift source-to-image
 ====================
+<img src="https://swift.org/assets/images/swift.svg" alt="Swift logo" height="70" >
 
-This repository contains the source for building Rust applications as reproducible Docker images using [source-to-image](https://github.com/openshift/source-to-image).
+This repository contains the source for building Swift applications as reproducible Docker images using [source-to-image](https://github.com/openshift/source-to-image).
 
 For more information about using these images with OpenShift, please see the
 official [OpenShift Documentation](https://docs.openshift.org/latest/architecture/core_concepts/builds_and_image_streams.html#source-build).
+
+For more information about the open source Swift programming language goto the [Swift website][https://swift.org]
 
 Versions
 ---------------
