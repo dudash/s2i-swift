@@ -25,11 +25,13 @@ RUN yum install -y centos-release-scl && \
     INSTALL_PKGS="clang libicu-devel" && \
     yum install -y --setopt=tsflags=nodocs --enablerepo=centosplus $INSTALL_PKGS && \
     rpm -V $INSTALL_PKGS && \
-    yum clean all -y && \
-    (curl -L https://swift.org/builds/swift-3.0.2-release/ubuntu1604/swift-3.0.2-RELEASE/swift-3.0.2-RELEASE-ubuntu16.04.tar.gz | \
-        tar -xz -C /usr/local) \
+    yum clean all -y
+#    (curl -L https://swift.org/builds/swift-3.0.2-release/ubuntu1604/swift-3.0.2-RELEASE/swift-3.0.2-RELEASE-ubuntu16.04.tar.gz | \
+#        tar -xz -C /usr/local) \
 
 # Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH
-COPY ./s2i/ $STI_SCRIPTS_PATH
+COPY ./s2i/bin $STI_SCRIPTS_PATH
+
 USER 1001
+
 CMD $STI_SCRIPTS_PATH/usage

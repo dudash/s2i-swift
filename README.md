@@ -10,7 +10,12 @@ official [OpenShift Documentation](https://docs.openshift.org/latest/architectur
 
 For more information about the open source Swift programming language goto the [Swift website][https://swift.org]
 
-Versions
+Prereqs (need to be installed to build)
+---------------
+* s2i
+* docker-squash
+
+Versions Availble
 ---------------
 Swift versions available
 * Swift 3.0
@@ -18,7 +23,7 @@ Swift versions available
 OS versions available
 * CentOS 7
 
-Installation
+Building This
 ---------------
 To prepare the s2i builder image:
 ```shell
@@ -36,22 +41,22 @@ Repo Organization
 **s2i/**: Build scripts which will be injected into the builder image and executed during application source code builds
 </pre>
 
-Use
+Using This (After Building)
 ---------------
-Use the `s2i` tool to build the final image that contains your application code:
+Use the `s2i` tool to build the final image that contains your application code - in this case the provided test app:
 ```shell
 $ s2i build ./3.0/test/test-app/ openshift/swift-30-centos7 swift-test-app
 ```
-* `./3.0/test/test-app/` is the top directory of your source code.
-* `openshift/swift-30-centos7` is the name of the s2i builder image created by `make build` above.
+* `./3.0/test/test-app/` is the top directory of the source code (replace test path with your code's path).
+* `openshift/swift-30-centos7` is the name of the s2i builder image created by `make build` above (including the repo).
 * `swift-test-app` is the name of the new application image that contains your app built from source code.
 
-Finally, run can run the test application image to see that it worked:
+Finally, run your application in a container to see that it worked (swift-test-app is the image you created using s2i):
 ```shell
 $ docker run swift-test-app
 ```
 
-Versions
+Using This in Open Shift
 ---------------
-Swift versions currently supported:
-* 3.0.x
+TBD
+
