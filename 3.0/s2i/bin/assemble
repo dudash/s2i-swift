@@ -27,7 +27,7 @@ cd ./
 #cd $SOURCE
 
 echo "---> Compiling and installing application source..."
-swiftc *.swift -o app
+swiftc *.swift -o ../app
 
 echo
 echo "---> Build completed at $(date)"

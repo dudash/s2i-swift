@@ -8,7 +8,7 @@ This repository contains the source for building Swift applications as reproduci
 For more information about using these images with OpenShift, please see the
 official [OpenShift Documentation](https://docs.openshift.org/latest/architecture/core_concepts/builds_and_image_streams.html#source-build).
 
-For more information about the open source Swift programming language goto the [Swift website][https://swift.org]
+For more information about the open source Swift programming language goto the [Swift website](https://swift.org).
 
 Prereqs (need to be installed to build)
 ---------------
@@ -58,5 +58,9 @@ $ docker run swift-test-app
 
 Using This in Open Shift
 ---------------
+We can create a custom builder image in Open Shift to build this S2I image and push it into your OpenShift registry:
+TBD
+
+We can install the S2I Swift image with a template to be used for integrating Swift source code repositories:
 TBD
 

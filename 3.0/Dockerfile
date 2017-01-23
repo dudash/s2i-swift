@@ -29,9 +29,9 @@ RUN yum install -y centos-release-scl && \
 # Install actual SWIFT version 3.0.x
 # Note: 3.1 will use a different S2I so only PATCH_VERSIONS differences will update *this* image
 # TODO: MAKE THIS ALL A SINGLE RUN SO rm WILL REDUCED THE IMAGE SIZE
-RUN DOWNLOAD_URL=https://swift.org/builds/swift-3.0.2-release/ubuntu1604/swift-3.0.2-RELEASE/swift-3.0.2-RELEASE-ubuntu16.04.tar.gz && \
+RUN DOWNLOAD_URL=https://swift.org/builds/swift-3.0.2-release/ubuntu1404/swift-3.0.2-RELEASE/swift-3.0.2-RELEASE-ubuntu14.04.tar.gz && \
     curl -fSsL $DOWNLOAD_URL -o swift-${SWIFT_VERSION}.tar.gz && \
-    curl -fSsL $DOWNLOAD_URL.sig -o swift-${SWIFT_VERSION}.tar.gz.sig \
+    curl -fSsL $DOWNLOAD_URL.sig -o swift-${SWIFT_VERSION}.tar.gz.sig
 
 # GET SECURITY KEYS FOR VALIDATING THE INSTALL
 #RUN wget -q -O - https://swift.org/keys/all-keys.asc | gpg --import -
@@ -44,6 +44,10 @@ RUN mkdir -p /swift && \
     tar -zxf swift-${SWIFT_VERSION}.tar.gz --strip-components=1 -C /swift && \
     ln -s /swift/usr/bin/swift /usr/local/bin/swift && \
     ln -s /swift/usr/bin/swiftc /usr/local/bin/swiftc
+
+RUN ln -s /lib64/libedit.so.0 /lib64/libedit.so.2 && \
+    ln -s /usr/lib64/libicuuc.so /usr/lib64/libicuuc.so.52 && \
+    ln -s /usr/lib64/libicui18n.so /usr/lib64/libicui18n.so.52
 
 # Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH
 COPY ./s2i/bin $STI_SCRIPTS_PATH
