@@ -3,6 +3,8 @@ Swift source-to-image
 <img src="https://swift.org/assets/images/swift.svg" alt="Swift logo" height="70" >
 <img src="https://www.openshift.com/images/logos/openshift/Logotype_RH_OpenShift_wLogo_RGB_Gray.svg" alt="OCP logo" height="70" >
 
+<h1>THIS IS IN WORK - YYMV</h1>
+
 This repository contains the source for building Swift applications as reproducible Docker images using [source-to-image](https://github.com/openshift/source-to-image).
 
 For more information about using these images with OpenShift, please see the
