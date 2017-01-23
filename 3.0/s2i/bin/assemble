@@ -12,8 +12,25 @@ function finish {
 }
 trap finish EXIT
 
+# By default the s2i build places the application source in /tmp/src directory. 
+# This directory is where the source and other assets will be placed for the build process. 
+# You can modify this location by setting the io.openshift.s2i.destination label or passing --destination flag, 
+# in which case the sources will be placed in the src subdirectory of the directory you specified. 
+# The destination in the above command (./) is using working directory set in the openshift/base-centos7 image, 
+# which we specified in our Dockerfile, and which is set to be /opt/app-root/src.
+echo "---> Preparing source..."
+cp -Rf /tmp/src/. ./
+cd ./
+# TODO: make this configurable via ENV
+#mkdir -p $SOURCE
+#cp -Rf /tmp/src/. $SOURCE
+#cd $SOURCE
+
+echo "---> Compiling and installing application source..."
+swiftc *.swift -o app
+
 echo
-echo "===> Build completed at $(date)"
+echo "---> Build completed at $(date)"
 
 # Fix source directory permissions
 fix-permissions ./

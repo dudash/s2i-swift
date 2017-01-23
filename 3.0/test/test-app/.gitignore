@@ -1,0 +1,7 @@
+
+.build
+build
+.vagrant
+Packages
+*.pkg
+*.DS_Store
