@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: BuildConfig
+metadata:
+  name: swift-30-centos7-build
+  namespace: openshift
+spec:
+  triggers:
+    -
+      type: GitHub
+      github:
+        secret: secret101
+  runPolicy: SerialLatestOnly
+  source:
+    type: Git
+    git:
+      uri: 'git://github.com/dudash/s2i-swift.git'
+    contextDir: /3.0
+  strategy:
+    type: Custom
+    customStrategy:
+      from:
+        kind: DockerImage
+        name: jasonredhat/sti-image-builder
+      env:
+        -
+          name: IMAGE_NAME
+          value: openshift/swift-30-centos7
+      exposeDockerSocket: true
+  output:
+    to:
+      kind: ImageStreamTag
+      namespace: openshift
+      name: 'swift:latest'
