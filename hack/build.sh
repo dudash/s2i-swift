@@ -4,7 +4,7 @@
 # Name of resulting image will be: 'NAMESPACE/BASE_IMAGE_NAME-VERSION-OS'.
 #
 # BASE_IMAGE_NAME - Usually name of the main component within container.
-# OS - Specifies distribution - "rhel7" or "centos7"
+# OS - Specifies distribution - "rhel7", "centos7", "ubuntu14"
 # VERSION - Specifies the image version - (must match with subdirectory in repo)
 # TEST_MODE - If set, build a candidate image and test it
 # TAG_ON_SUCCESS - If set, tested image will be re-tagged as a non-candidate
@@ -49,9 +49,12 @@ function docker_build_with_version {
 function squash {
   # FIXME: We have to use the exact versions here to avoid Docker client
   #        compatibility issues
-  easy_install -q --user docker_py==1.7.2 docker-squash==1.0.1
+  easy_install -q --user docker_py==1.7.2 docker-squash==1.0.5
   base=$(awk '/^FROM/{print $2}' $1)
+  # s2i Linux, TODO: figure this out in script
   #${HOME}/.local/bin/docker-squash -f $base ${IMAGE_NAME}
+  # s2i On a Mac
+  echo "SQUASHING IMAGE -> ${HOME}/Library/Python/2.7/bin/docker-squash -f ${base} ${IMAGE_NAME}"
   ${HOME}/Library/Python/2.7/bin/docker-squash -f $base ${IMAGE_NAME}
 }
 
@@ -65,7 +68,9 @@ for dir in ${dirs}; do
       NAMESPACE="openshift/"
       ;;
     *)
-      if [ "${OS}" == "centos7" ]; then
+      if [ "${OS}" == "ubuntu14" ]; then
+        NAMESPACE="ubuntu/"
+      elif [ "${OS}" == "centos7" ]; then
         NAMESPACE="centos/"
       else
         # we don't test rhel versions of SCL owned images
@@ -85,11 +90,13 @@ for dir in ${dirs}; do
     IMAGE_NAME+="-candidate"
   fi
 
-  echo "-> Building ${IMAGE_NAME} ..."
+  echo "BUILDING IMAGE -> ${IMAGE_NAME} ..."
 
   pushd ${dir} > /dev/null
   if [ "$OS" == "rhel7" -o "$OS" == "rhel7-candidate" ]; then
     docker_build_with_version Dockerfile.rhel7
+  elif [ "$OS" == "centos7" ]; then
+    docker_build_with_version Dockerfile.centos7
   else
     docker_build_with_version Dockerfile
   fi
@@ -100,12 +107,12 @@ for dir in ${dirs}; do
     IMAGE_NAME=${IMAGE_NAME} test/run
 
     if [[ $? -eq 0 ]] && [[ "${TAG_ON_SUCCESS}" == "true" ]]; then
-      echo "-> Re-tagging ${IMAGE_NAME} image to ${IMAGE_NAME%"-candidate"}"
+      echo "RETAGGING IMAGE -> ${IMAGE_NAME} to ${IMAGE_NAME%"-candidate"}"
       docker tag $IMAGE_NAME ${IMAGE_NAME%"-candidate"}
     fi
 
     if [[ ! -z "${REGISTRY}" ]]; then
-      echo "-> Tagging image as" ${REGISTRY}/${IMAGE_NAME%"-candidate"}
+      echo "TAGGING IMAGE AS -> " ${REGISTRY}/${IMAGE_NAME%"-candidate"}
       docker tag $IMAGE_NAME ${REGISTRY}/${IMAGE_NAME%"-candidate"}
     fi
   fi

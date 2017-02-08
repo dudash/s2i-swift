@@ -23,15 +23,17 @@ Swift versions available
 * Swift 3.0
 
 OS versions available
-* CentOS 7
+* ubuntu14 = Ubuntu 14.04
+* centos7 = CentOS 7 (IN WORK)
+* rhel7 = RHEL 7 (IN WORK)
 
 Building This
 ---------------
-To prepare the s2i builder image:
+To prepare the s2i builder image (for builing on Ubuntu 14.04 & Swift 3.0):
 ```shell
 $ git clone https://github.com/dudash/s2i-swift.git
 $ cd s2i-swift
-$ make build VERSION=3.0
+$ make build VERSION=3.0 TARGET=ubuntu14
 ```
 
 Repo Organization
@@ -47,10 +49,10 @@ Using This (After Building)
 ---------------
 Use the `s2i` tool to build the final image that contains your application code - in this case the provided test app:
 ```shell
-$ s2i build ./3.0/test/test-app/ openshift/swift-30-centos7 swift-test-app
+$ s2i build ./3.0/test/test-app/ openshift/swift-30-ubuntu14 swift-test-app
 ```
 * `./3.0/test/test-app/` is the top directory of the source code (replace test path with your code's path).
-* `openshift/swift-30-centos7` is the name of the s2i builder image created by `make build` above (including the repo).
+* `openshift/swift-30-ubuntu14` is the name of the s2i builder image created by `make build` above (including the repo).
 * `swift-test-app` is the name of the new application image that contains your app built from source code.
 
 Finally, run your application in a container to see that it worked (swift-test-app is the image you created using s2i):

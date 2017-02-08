@@ -5,7 +5,11 @@ build = hack/build.sh
 ifeq ($(TARGET),rhel7)
 	OS := rhel7
 else
-	OS := centos7
+	ifeq ($(TARGET),centos7)
+		OS := centos7
+	else
+		OS := ubuntu14
+	endif
 endif
 
 script_env = \

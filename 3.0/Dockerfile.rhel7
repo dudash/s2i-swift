@@ -1,40 +1,9 @@
 # This container can provide an environment for building and running Swift applications.
 # latest info on swift releases for linux are here: https://swift.org/download/#releases
 
-# Base Image Info
-# https://hub.docker.com/_/ubuntu/
-
-FROM ubuntu:14.04
+FROM rhscl/s2i-base-rhel7
 
 MAINTAINER Jason Dudash <jason.dudash@gmail.com>
-
-##################################################################################################
-#### THIS IS BASE UBUNTU IMAGE STUFF, SHOULD EVENTUALLY BE MOVED INTO ONE
-##################################################################################################
-LABEL \
-      # Location of the STI scripts inside the image.
-      io.openshift.s2i.scripts-url=image:///usr/libexec/s2i \
-      # DEPRECATED: This label will be kept here for backward compatibility.
-      io.s2i.scripts-url=image:///usr/libexec/s2i
-
-ENV \
-    # DEPRECATED: Use above LABEL instead, because this will be removed in future versions.
-    STI_SCRIPTS_URL=image:///usr/libexec/s2i \
-    # Path to be used in other layers to place s2i scripts into
-    STI_SCRIPTS_PATH=/usr/libexec/s2i \
-    # The $HOME is not set by default, but some applications needs this variable
-    HOME=/opt/app-root/src \
-    PATH=/opt/app-root/src/bin:/opt/app-root/bin:$PATH
-
-RUN \
-    mkdir -p ${HOME} && \
-    useradd -u 1001 -r -g 0 -d ${HOME} -s /sbin/nologin -c "Default Application User" default && \
-    chown -R 1001:0 /opt/app-root
-
-WORKDIR ${HOME}
-
-##################################################################################################
-
 
 EXPOSE 8080
 
@@ -50,16 +19,21 @@ LABEL io.k8s.description="Platform for building and running Swift applications" 
       io.openshift.expose-services="8080:http" \
       io.openshift.tags="builder,swift,swift${SWIFT_MAJOR_VERSION}${SWIFT_MINOR_VERSION}" \
       io.openshift.s2i.scripts-url="image:///${STI_SCRIPTS_PATH}" \
-      name="swift-${SWIFT_MAJOR_VERSION}${SWIFT_MINOR_VERSION}-ubuntu14"
+      name="swift-${SWIFT_MAJOR_VERSION}${SWIFT_MINOR_VERSION}-rhel7"
 
-# Install toolchain needed for builds
-RUN apt-get -q update && \
-    DEBIAN_FRONTEND=noninteractive apt-get -q install -y \
-    clang-3.6 \
-    libicu-dev \
-    curl \
-    python2.7 \
-    libxml2
+# To use subscription inside container yum command has to be run first (before yum-config-manager)
+# https://access.redhat.com/solutions/1443553
+RUN yum repolist > /dev/null && \
+    yum-config-manager --enable rhel-server-rhscl-7-rpms && \
+    yum-config-manager --enable rhel-7-server-optional-rpms && \
+    yum-config-manager --enable rhel-7-server-ose-3.2-rpms && \
+    yum-config-manager --disable epel >/dev/null || : && \
+    INSTALL_PKGS="clang libicu-devel" && \
+    yum install -y --setopt=tsflags=nodocs $INSTALL_PKGS && \
+    rpm -V $INSTALL_PKGS && \
+    # Remove redhat-logos (httpd dependency) to keep image size smaller.
+    rpm -e --nodeps redhat-logos && \
+    yum clean all -y
 
 # Install actual SWIFT version 3.0.x
 # Note: 3.1 will use a different S2I so only PATCH_VERSIONS differences will update *this* image
@@ -80,11 +54,14 @@ RUN mkdir -p /swift && \
     ln -s /swift/usr/bin/swift /usr/local/bin/swift && \
     ln -s /swift/usr/bin/swiftc /usr/local/bin/swiftc
 
+RUN ln -s /lib64/libedit.so.0 /lib64/libedit.so.2 && \
+    ln -s /usr/lib64/libicuuc.so /usr/lib64/libicuuc.so.52 && \
+    ln -s /usr/lib64/libicui18n.so /usr/lib64/libicui18n.so.52
+
 # Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH
 COPY ./s2i/bin $STI_SCRIPTS_PATH
 
 RUN chown -R 1001:0 /opt/app-root && chmod -R ug+rwx /opt/app-root
 USER 1001
 
-# Set the default CMD to print the usage of the language image.
 CMD $STI_SCRIPTS_PATH/usage
