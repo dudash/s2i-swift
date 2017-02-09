@@ -55,7 +55,7 @@ function squash {
   #${HOME}/.local/bin/docker-squash -f $base ${IMAGE_NAME}
   # s2i On a Mac
   echo "SQUASHING IMAGE -> ${HOME}/Library/Python/2.7/bin/docker-squash -f ${base} ${IMAGE_NAME}"
-  #${HOME}/Library/Python/2.7/bin/docker-squash -f $base ${IMAGE_NAME}
+  ${HOME}/Library/Python/2.7/bin/docker-squash -f $base ${IMAGE_NAME}
 }
 
 # Versions are stored in subdirectories. You can specify VERSION variable

@@ -30,15 +30,20 @@ cd ./
 
 echo "---> Compiling and installing application source..."
 # TODO: if exists Package.json
-# assuming use of Swift package manager
-echo "... building as a Swift package based on Package.swift"
-swift build -v
+echo "   ... building as a Swift package based on Package.swift (DEBUG MODE)"
+swift build -v -c debug
+#echo "   ... building as a Swift package based on Package.swift (RELEASE MODE)"
+#swift build -v -c release
+
 # TODO: else just use swiftc and output an app
-#echo "... building as flat swift files and outputting as an executable named app"
+#echo "   ... building as flat swift files and outputting as an executable named app"
 # swiftc *.swift $EXTRA_COMPILE_OPTIONS -v -o ../app
 
-echo
+find ./.build/debug -maxdepth 1 -type f -executable | while read line; do
+	echo "copying EXEC to run dir: ${line}"
+	cp ${line} ../
+done
 echo "---> Build completed at $(date)"
 
-# Fix source directory permissions
-fix-permissions ./
+# TODO: Fix source directory permissions?
+# TODO: support for release mode
