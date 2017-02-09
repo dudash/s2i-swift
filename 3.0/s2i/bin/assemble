@@ -12,6 +12,8 @@ function finish {
 }
 trap finish EXIT
 
+echo "PWD is ${PWD}"
+
 # By default the s2i build places the application source in /tmp/src directory. 
 # This directory is where the source and other assets will be placed for the build process. 
 # You can modify this location by setting the io.openshift.s2i.destination label or passing --destination flag, 
@@ -22,9 +24,18 @@ echo "---> Preparing source..."
 cp -Rf /tmp/src/. ./
 cd ./
 
-# TODO: add compiler flags and linker options for default case
+# echo "---> Creating local package dependencies..."
+# TODO: figure out if we need to init any local Swift packages/module.maps bundled with this source
+# git init, moving stuff around, etc
+
 echo "---> Compiling and installing application source..."
-swiftc *.swift -v -o ../app
+# TODO: if exists Package.json
+# assuming use of Swift package manager
+echo "... building as a Swift package based on Package.swift"
+swift build -v
+# TODO: else just use swiftc and output an app
+#echo "... building as flat swift files and outputting as an executable named app"
+# swiftc *.swift $EXTRA_COMPILE_OPTIONS -v -o ../app
 
 echo
 echo "---> Build completed at $(date)"

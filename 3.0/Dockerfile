@@ -55,11 +55,16 @@ LABEL io.k8s.description="Platform for building and running Swift applications" 
 # Install toolchain needed for builds
 RUN apt-get -q update && \
     DEBIAN_FRONTEND=noninteractive apt-get -q install -y \
+    git \
+    build-essential \
     clang-3.6 \
     libicu-dev \
     curl \
-    python2.7 \
-    libxml2
+    python2.7-dev \
+    libxml2 \
+    libbsd-dev && \
+    update-alternatives --install /usr/bin/clang clang /usr/bin/clang-3.6 100 && \
+    update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-3.6 100
 
 # Install actual SWIFT version 3.0.x
 # Note: 3.1 will use a different S2I so only PATCH_VERSIONS differences will update *this* image

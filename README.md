@@ -12,7 +12,11 @@ official [OpenShift Documentation](https://docs.openshift.org/latest/architectur
 
 For more information about the open source Swift programming language goto the [Swift website](https://swift.org).
 
-Prereqs (need to be installed to build)
+
+<h3>Below you can read how to build and how to use.  FYI, you don't have to build this image - I'll try to keep updated versions of it available on docker hub.  And maybe evetually Red Hat will incorporate this into their secure openshift repos.<h3>
+
+
+Prereqs (need to be installed to *build*)
 ---------------
 * s2i
 * docker-squash
@@ -38,7 +42,7 @@ $ make build VERSION=3.0 TARGET=ubuntu14
 
 Repo Organization
 ---------------
- <pre>
+<pre>
 **[swift-version]**: Dockerfile to build container images from
 **[swift-version/test/test-app]**: Sample application used for tests
 **hack/**: Folder containing scripts which are responsible for the build and test actions performed by the Makefile
@@ -68,3 +72,14 @@ TBD
 We can install the S2I Swift image with a template to be used for integrating Swift source code repositories:
 TBD
 
+
+Advanced Usage
+---------------
+
+**Package Manager builds**
+You can leverage the following to customize your build process when running `s2i build -e "..."`
+* EXTRA_COMPILE_OPTIONS to pass extra options to swiftc
+  e.g. s2i build -e "EXTRA_COMPILE_OPTIONS='-Xcc -fmodule-map-file=libbsd.modulemap'"
+
+**Straight Source Builds**
+You can just point s2i to a folder of swift files and it will compile them into an executable called "app"
