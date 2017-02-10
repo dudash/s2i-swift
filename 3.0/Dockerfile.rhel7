@@ -37,26 +37,22 @@ RUN yum repolist > /dev/null && \
 
 # Install actual SWIFT version 3.0.x
 # Note: 3.1 will use a different S2I so only PATCH_VERSIONS differences will update *this* image
-# TODO: MAKE THIS ALL A SINGLE RUN SO rm WILL REDUCED THE IMAGE SIZE
 RUN DOWNLOAD_URL=https://swift.org/builds/swift-3.0.2-release/ubuntu1404/swift-3.0.2-RELEASE/swift-3.0.2-RELEASE-ubuntu14.04.tar.gz && \
     curl -fSsL $DOWNLOAD_URL -o swift-${SWIFT_VERSION}.tar.gz && \
-    curl -fSsL $DOWNLOAD_URL.sig -o swift-${SWIFT_VERSION}.tar.gz.sig
-
-# GET SECURITY KEYS FOR VALIDATING THE INSTALL
-#RUN wget -q -O - https://swift.org/keys/all-keys.asc | gpg --import -
-# VERIFY THE DOWNLOAD AND EXTRACT 
-#RUN gpg --keyserver hkp://pool.sks-keyservers.net --refresh-keys Swift && \
-#    gpg --batch --verify swift-${SWIFT_VERSION}.tar.gz.sig
-
-# EXTRACT ARCHIVE
-RUN mkdir -p /swift && \
+    curl -fSsL $DOWNLOAD_URL.sig -o swift-${SWIFT_VERSION}.tar.gz.sig && \
+    gpg --keyserver hkp://pool.sks-keyservers.net \
+      --recv-keys \
+      '7463 A81A 4B2E EA1B 551F  FBCF D441 C977 412B 37AD' \
+      '1BE1 E29A 084C B305 F397  D62A 9F59 7F4D 21A5 6D5F' \
+      'A3BA FD35 56A5 9079 C068  94BD 63BC 1CFE 91D3 06C6' && \
+    gpg --keyserver hkp://pool.sks-keyservers.net --refresh-keys Swift && \
+    gpg --verify swift-${SWIFT_VERSION}.tar.gz.sig && \
+    mkdir -p /swift && \
     tar -zxf swift-${SWIFT_VERSION}.tar.gz --strip-components=1 -C /swift && \
     ln -s /swift/usr/bin/swift /usr/local/bin/swift && \
-    ln -s /swift/usr/bin/swiftc /usr/local/bin/swiftc
-
-RUN ln -s /lib64/libedit.so.0 /lib64/libedit.so.2 && \
-    ln -s /usr/lib64/libicuuc.so /usr/lib64/libicuuc.so.52 && \
-    ln -s /usr/lib64/libicui18n.so /usr/lib64/libicui18n.so.52
+    ln -s /swift/usr/bin/swiftc /usr/local/bin/swiftc && \
+    rm -rf swift-${SWIFT_VERSION}.tar.gz && \
+    rm -rf swift-${SWIFT_VERSION}.tar.gz.sig
 
 # Copy the S2I scripts from the specific language image to $STI_SCRIPTS_PATH
 COPY ./s2i/bin $STI_SCRIPTS_PATH
@@ -64,4 +60,5 @@ COPY ./s2i/bin $STI_SCRIPTS_PATH
 RUN chown -R 1001:0 /opt/app-root && chmod -R ug+rwx /opt/app-root
 USER 1001
 
+# Set the default CMD to print the usage of the language image.
 CMD $STI_SCRIPTS_PATH/usage

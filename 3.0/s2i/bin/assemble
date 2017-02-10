@@ -6,6 +6,20 @@ echo "---> Build started at $(date)"
 echo
 START=$SECONDS
 
+function git_packages_init() {
+	git config --global user.email "nobody@nowhere.com"
+	git config --global user.name "Nobody"
+	for D in Packages/*; do
+		echo "   ... setting up local dependency $D"
+		pushd $D
+		git init
+		git add .
+		git commit -m "auto-created repo for local swift package"
+		git tag 1.0.0
+		popd
+	done
+}
+
 # Unconditionally print elapsed build time at exit
 function finish {
   echo "===> Elapsed time: $(($SECONDS - $START)) seconds"
@@ -24,25 +38,24 @@ echo "---> Preparing source..."
 cp -Rf /tmp/src/. ./
 cd ./
 
-# echo "---> Creating local package dependencies..."
-# TODO: figure out if we need to init any local Swift packages/module.maps bundled with this source
-# git init, moving stuff around, etc
+echo "---> Creating local package dependencies..."
+git_packages_init
 
 echo "---> Compiling and installing application source..."
-# TODO: if exists Package.json
-echo "   ... building as a Swift package based on Package.swift (DEBUG MODE)"
-swift build -v -c debug
-#echo "   ... building as a Swift package based on Package.swift (RELEASE MODE)"
-#swift build -v -c release
+if [ -f Package.swift ]; then
+	echo "   ... building as a Swift package based on Package.swift (DEBUG MODE)"
+	swift build -v -c debug
+	#echo "   ... building as a Swift package based on Package.swift (RELEASE MODE)"
+	#swift build -v -c release
+	find ./.build/debug -maxdepth 1 -type f -executable | while read line; do
+		echo "   ... copying EXEC to run dir: ${line}"
+		ln -s ${line} ../
+	done
+else
+	echo "   ... building as flat swift files and outputting as an executable named app"
+	swiftc *.swift $EXTRA_COMPILE_OPTIONS -v -o ../app
+fi
 
-# TODO: else just use swiftc and output an app
-#echo "   ... building as flat swift files and outputting as an executable named app"
-# swiftc *.swift $EXTRA_COMPILE_OPTIONS -v -o ../app
-
-find ./.build/debug -maxdepth 1 -type f -executable | while read line; do
-	echo "copying EXEC to run dir: ${line}"
-	cp ${line} ../
-done
 echo "---> Build completed at $(date)"
 
 # TODO: Fix source directory permissions?
