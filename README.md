@@ -21,7 +21,7 @@ Prereqs (need to be installed to *build*)
 * s2i
 * docker-squash
 
-Versions Availble
+Versions available
 ---------------
 Swift versions available
 * Swift 3.0
@@ -31,7 +31,7 @@ OS versions available
 * centos7 = CentOS 7 (IN WORK)
 * rhel7 = RHEL 7 (IN WORK)
 
-Building This
+Building this repo
 ---------------
 To prepare the s2i builder image (for builing on Ubuntu 14.04 & Swift 3.0):
 ```shell
@@ -40,7 +40,7 @@ $ cd s2i-swift
 $ make build VERSION=3.0 TARGET=ubuntu14
 ```
 
-Repo Organization
+This repo organization
 ---------------
 <pre>
 **[swift-version]**: Dockerfile to build container images from
@@ -49,7 +49,7 @@ Repo Organization
 **s2i/**: Build scripts which will be injected into the builder image and executed during application source code builds
 </pre>
 
-Using This (After Building)
+Using this image
 ---------------
 Use the `s2i` tool to build the final image that contains your application code - in this case the provided test app:
 ```shell
@@ -64,7 +64,7 @@ Finally, run your application in a container to see that it worked (swift-test-a
 $ docker run swift-test-app
 ```
 
-Using This in Open Shift
+Using this in Open Shift
 ---------------
 We can create a custom builder image in Open Shift to build this S2I image and push it into your OpenShift registry:
 TBD
@@ -73,13 +73,15 @@ We can install the S2I Swift image with a template to be used for integrating Sw
 TBD
 
 
-Advanced Usage
+How to structure your code for this builder image
 ---------------
 
-**Package Manager builds**
+**Package Manager Builds**
 You can leverage the following to customize your build process when running `s2i build -e "..."`
-* EXTRA_COMPILE_OPTIONS to pass extra options to swiftc
-  e.g. s2i build -e "EXTRA_COMPILE_OPTIONS='-Xcc -fmodule-map-file=libbsd.modulemap'"
+Local package dependencies should be placed in a subfolder called "LocalPackages" - see the test app as an example.
 
 **Straight Source Builds**
 You can just point s2i to a folder of swift files and it will compile them into an executable called "app"
+
+* EXTRA_COMPILE_OPTIONS to pass extra options to swiftc
+  e.g. s2i build -e "EXTRA_COMPILE_OPTIONS='-Xcc -fmodule-map-file=libbsd.modulemap'"
