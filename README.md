@@ -73,8 +73,7 @@ $ docker run package-dealer
 
 **Package Manager Builds**
 
-You can leverage the following to customize your build process when running `s2i build -e "..."`
-Local package dependencies should be placed in a subfolder called "LocalPackages" (see the test app as an example).
+You can build swift apps for linux that leverage Swift Package Manager.  The build process assumes you will have a Package.swift at the top level describing your app and it's dependencies.  Your app's Swift code should be located in a "Sources" directory.  Local package dependencies should be placed in a directory called "LocalPackages" (see the test app as an example).
 
 **Straight Source Builds**
 
@@ -88,7 +87,7 @@ You can just point s2i to a folder of swift files and it will compile them into 
 
 We can install the S2I Swift image with a template to be used for integrating Swift source code repositories:
 ```shell
-$ oc create -n openshift -f https://github.com/dudash/s2i-swift/blob/master/openshift-resources/swift-30-linux-all-imagestreamlist.json
+$ oc create -n openshift -f https://raw.githubusercontent.com/dudash/s2i-swift/master/openshift-resources/swift-30-linux-all-imagestreamlist.json
 ```
 (note: drop the -n openshift if you don't have admin rights... or ask your admin to create it)
 
@@ -96,7 +95,7 @@ $ oc create -n openshift -f https://github.com/dudash/s2i-swift/blob/master/open
 ## Building this repo
 
 ### Build 
-To prepare the s2i builder image (for builing on Ubuntu 14.04 & Swift 3.0):
+To prepare the s2i builder image (for building on Ubuntu 14.04 & Swift 3.0):
 ```shell
 $ git clone https://github.com/dudash/s2i-swift.git
 $ cd s2i-swift
