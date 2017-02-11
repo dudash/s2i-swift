@@ -43,13 +43,15 @@ $ docker run swift-test-app
 
 ### Other use examples
 * Hello swift from github example
+```shell
 	> s2i build https://github.com/dudash/openshiftexamples-swift.git openshift/swift-30-ubuntu14 hello-swift
-
+```
 * Apple's swift example oackage dealr on github (with logging set to 5):
+```shell
 	> `s2i build --loglevel 5 https://github.com/apple/example-package-dealer.git openshift/swift-30-ubuntu14 package-dealer`
 	> `docker images` to see the app is there
 	> `docker run package-dealer`
-
+```
 
 ### Using in Open Shift
 
