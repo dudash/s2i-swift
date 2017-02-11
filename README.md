@@ -1,9 +1,7 @@
-Swift source-to-image
-====================
+# Swift source-to-image
+
 <img src="https://swift.org/assets/images/swift.svg" alt="Swift logo" height="70" >
 <img src="https://www.openshift.com/images/logos/openshift/Logotype_RH_OpenShift_wLogo_RGB_Gray.svg" alt="OCP logo" height="70" >
-
-<h1>THIS IS IN WORK - YYMV</h1>
 
 This repository contains the source for building Swift applications as reproducible Docker images using [source-to-image](https://github.com/openshift/source-to-image).
 
@@ -13,16 +11,11 @@ official [OpenShift Documentation](https://docs.openshift.org/latest/architectur
 For more information about the open source Swift programming language goto the [Swift website](https://swift.org).
 
 
-<h3>Below you can read how to build and how to use.  FYI, you don't have to build this image - I'll try to keep updated versions of it available on docker hub.  And maybe evetually Red Hat will incorporate this into their secure openshift repos.<h3>
+<h3>Below you can read how to build and how to use.  FYI, you don't have to build this repo, you can use a prebuilt image - I'll try to keep updated versions of it available on docker hub.<h3>
 
 
-Prereqs (need to be installed to *build*)
----------------
-* s2i
-* docker-squash
+## Versions available
 
-Versions available
----------------
 Swift versions available
 * Swift 3.0
 
@@ -31,26 +24,10 @@ OS versions available
 * centos7 = CentOS 7 (IN WORK)
 * rhel7 = RHEL 7 (IN WORK)
 
-Building this repo
----------------
-To prepare the s2i builder image (for builing on Ubuntu 14.04 & Swift 3.0):
-```shell
-$ git clone https://github.com/dudash/s2i-swift.git
-$ cd s2i-swift
-$ make build VERSION=3.0 TARGET=ubuntu14
-```
 
-This repo organization
----------------
-<pre>
-**[swift-version]**: Dockerfile to build container images from
-**[swift-version/test/test-app]**: Sample application used for tests
-**hack/**: Folder containing scripts which are responsible for the build and test actions performed by the Makefile
-**s2i/**: Build scripts which will be injected into the builder image and executed during application source code builds
-</pre>
+## Using this image
 
-Using this image
----------------
+### Local test app
 Use the `s2i` tool to build the final image that contains your application code - in this case the provided test app:
 ```shell
 $ s2i build ./3.0/test/test-app/ openshift/swift-30-ubuntu14 swift-test-app
@@ -64,24 +41,59 @@ Finally, run your application in a container to see that it worked (swift-test-a
 $ docker run swift-test-app
 ```
 
-Using this in Open Shift
----------------
+### Other use examples
+* Hello swift from github example
+	> s2i build https://github.com/dudash/openshiftexamples-swift.git openshift/swift-30-ubuntu14 hello-swift
+
+* Apple's swift example oackage dealr on github (with logging set to 5):
+	> `s2i build --loglevel 5 https://github.com/apple/example-package-dealer.git openshift/swift-30-ubuntu14 package-dealer`
+	> `docker images` to see the app is there
+	> `docker run package-dealer`
+
+
+### Using in Open Shift
+
 We can create a custom builder image in Open Shift to build this S2I image and push it into your OpenShift registry:
-TBD
+TBD image stream template
 
 We can install the S2I Swift image with a template to be used for integrating Swift source code repositories:
-TBD
+TBD commands to install
 
 
-How to structure your code for this builder image
----------------
+### How to structure your code
 
 **Package Manager Builds**
+
 You can leverage the following to customize your build process when running `s2i build -e "..."`
-Local package dependencies should be placed in a subfolder called "LocalPackages" - see the test app as an example.
+Local package dependencies should be placed in a subfolder called "LocalPackages" (see the test app as an example).
 
 **Straight Source Builds**
-You can just point s2i to a folder of swift files and it will compile them into an executable called "app"
+
+You can just point s2i to a folder of swift files and it will compile them into an executable.
 
 * EXTRA_COMPILE_OPTIONS to pass extra options to swiftc
   e.g. s2i build -e "EXTRA_COMPILE_OPTIONS='-Xcc -fmodule-map-file=libbsd.modulemap'"
+
+
+## Building this repo
+
+### Build prereqs
+* s2i
+* docker-squash
+
+### Build 
+To prepare the s2i builder image (for builing on Ubuntu 14.04 & Swift 3.0):
+```shell
+$ git clone https://github.com/dudash/s2i-swift.git
+$ cd s2i-swift
+$ make build VERSION=3.0 TARGET=ubuntu14
+```
+
+### Repo organization
+<pre>
+**[swift-version]**: Dockerfile to build container images from
+**[swift-version/test/test-app]**: Sample application used for tests
+**hack/**: Folder containing scripts which are responsible for the build and test actions performed by the Makefile
+**s2i/**: Build scripts which will be injected into the builder image and executed during application source code builds
+</pre>
+

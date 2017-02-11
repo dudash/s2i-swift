@@ -40,8 +40,10 @@ cd ./
 
 echo "---> Compiling and installing application source..."
 if [ -f Package.swift ]; then
-	echo "   ...  creating local nested package dependencies..."
-	git_packages_init
+	if [ -d LocalPackages ]; then
+		echo "   ...  creating local nested package dependencies..."
+		git_packages_init
+	fi
 	echo "   ... building as a Swift package based on Package.swift (DEBUG MODE)"
 	swift build -v -c debug
 	#echo "   ... building as a Swift package based on Package.swift (RELEASE MODE)"
