@@ -30,7 +30,7 @@ OS versions available
 ### Local test app
 Use the `s2i` tool to build the final image that contains your application code - in this case the provided test app:
 ```shell
-$ s2i build ./3.0/test/test-app/ openshift/swift-30-ubuntu14 swift-test-app
+$ s2i build ./3.0/test/test-app/ dudash/swift-30-ubuntu14 swift-test-app
 ```
 * `./3.0/test/test-app/` is the top directory of the source code (replace test path with your code's path).
 * `openshift/swift-30-ubuntu14` is the name of the s2i builder image created by `make build` above (including the repo).
@@ -44,13 +44,13 @@ $ docker run swift-test-app
 ### Other use examples
 * Hello swift from github example
 ```shell
-	> s2i build https://github.com/dudash/openshiftexamples-swift.git openshift/swift-30-ubuntu14 hello-swift
+$ s2i build https://github.com/dudash/openshiftexamples-swift.git dudash/swift-30-ubuntu14 hello-swift
+$ docker run hello-swift
 ```
 * Apple's swift example oackage dealr on github (with logging set to 5):
 ```shell
-	> `s2i build --loglevel 5 https://github.com/apple/example-package-dealer.git openshift/swift-30-ubuntu14 package-dealer`
-	> `docker images` to see the app is there
-	> `docker run package-dealer`
+$ s2i build --loglevel 5 https://github.com/apple/example-package-dealer.git dudash/swift-30-ubuntu14 package-dealer
+$ docker run package-dealer
 ```
 
 ### Using in Open Shift
