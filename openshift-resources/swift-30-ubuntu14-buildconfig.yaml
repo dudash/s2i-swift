@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: BuildConfig
 metadata:
-  name: swift-30-centos7-build
+  name: swift-30-ubuntu14-build
   namespace: openshift
 spec:
   triggers:
@@ -24,7 +24,7 @@ spec:
       env:
         -
           name: IMAGE_NAME
-          value: openshift/swift-30-centos7
+          value: dudash/swift-30-ubuntu14
       exposeDockerSocket: true
   output:
     to:

@@ -7,8 +7,7 @@ you can leverage this for better consistency across your development environment
 To use it, install S2I: https://github.com/openshift/source-to-image#installation
 
 Sample invocation to build a test app using this image:
-$ s2i build https://github.com/dudash/s2i-swift.git \\
---context-dir=/3.0/test/test-app/ openshift/swift-30-ubuntu14 swift-test-app
+$ s2i build ./3.0/test/test-app/ dudash/swift-30-ubuntu14 swift-test-app
 (Note: replace the version and OS as appropiate for the image you are using)
 
 The above will have created an image containing your app, so you can then run your app via:

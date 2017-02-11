@@ -1,0 +1,63 @@
+{
+  "kind": "ImageStreamList",
+  "apiVersion": "v1",
+  "metadata": {},
+  "items": [
+    {
+      "kind": "ImageStream",
+      "apiVersion": "v1",
+      "metadata": {
+        "name": "swift-30-ubuntu",
+        "creationTimestamp": null
+      },
+      "spec": {
+        "tags": [
+          {
+            "name": "latest",
+            "annotations": {
+              "openshift.io/display-name": "Swift 3.0 Ubuntu",
+              "description": "Build and run Swift 3.0 applications on Ubuntu 14. For more information about using this builder image, including OpenShift considerations, see https://github.com/dudash/s2i-swift",
+              "iconClass": "fa fa-apple",
+              "tags": "builder,swift,swift-30",
+              "supports":"swift:3,swift:3.0,swift",
+              "sampleRepo": "https://github.com/dudash/openshiftexamples-simpleswift.git"
+            },
+            "from": {
+              "kind": "ImageStreamTag",
+              "name": "3.0.2"
+            }
+          },
+          {
+            "name": "3.0",
+            "annotations": {
+              "description": "Build and run Swift 3.0 applications on Ubuntu 14. For more information about using this builder image, including OpenShift considerations, see https://github.com/dudash/s2i-swift",
+              "iconClass": "fa fa-apple",
+              "tags": "builder,swift,swift-30",
+              "supports":"swift:3,swift:3.0,swift",
+              "sampleRepo": "https://github.com/dudash/openshiftexamples-simpleswift.git"
+            },
+            "from": {
+              "kind": "ImageStreamTag",
+              "name": "3.0.2"
+            }
+          },
+          {
+            "name": "3.0.2",
+            "annotations": {
+              "description": "Build and run Swift 3.0 applications on Ubuntu 14. For more information about using this builder image, including OpenShift considerations, see https://github.com/dudash/s2i-swift",
+              "iconClass": "fa fa-apple",
+              "tags": "builder,swift,swift-30",
+              "supports":"swift:3,swift:3.0,swift",
+              "version": "3.0.2",
+              "sampleRepo": "https://github.com/dudash/openshiftexamples-simpleswift.git"
+            },
+            "from": {
+              "kind": "DockerImage",
+              "name": "dudash/swift-30-ubuntu14:3.0.2"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

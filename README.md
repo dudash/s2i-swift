@@ -13,6 +13,8 @@ For more information about the open source Swift programming language goto the [
 
 <h3>Below you can read how to build and how to use.  FYI, you don't have to build this repo, you can use a prebuilt image - I'll try to keep updated versions of it available on docker hub.<h3>
 
+[![docker hub stats](http://dockeri.co/image/dudash/swift-30-ubuntu14)](https://hub.docker.com/r/dudash/swift-30-ubuntu/)
+
 
 ## Versions available
 
@@ -58,7 +60,7 @@ Use the `s2i` tool to build the final image that contains your application code
 
 * Hello swift from github example
 ```shell
-$ s2i build https://github.com/dudash/openshiftexamples-swift.git dudash/swift-30-ubuntu14 hello-swift
+$ s2i build https://github.com/dudash/openshiftexamples-simpleswift.git dudash/swift-30-ubuntu14 hello-swift
 $ docker run hello-swift
 ```
 * Apple's swift example package-dealer on github (with logging set to 5):
@@ -84,11 +86,11 @@ You can just point s2i to a folder of swift files and it will compile them into 
 
 ### Using in Open Shift
 
-We can create a custom builder image in Open Shift to build this S2I image and push it into your OpenShift registry:
-TBD image stream template
-
 We can install the S2I Swift image with a template to be used for integrating Swift source code repositories:
-TBD commands to install
+```shell
+$ oc create -n openshift -f https://github.com/dudash/s2i-swift/blob/master/openshift-resources/swift-30-linux-all-imagestreamlist.json
+```
+(note: drop the -n openshift if you don't have admin rights... or ask your admin to create it)
 
 
 ## Building this repo
