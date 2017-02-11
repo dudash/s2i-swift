@@ -27,28 +27,16 @@ OS versions available
 
 ## Using this image
 
+You'll need to have the [s2i tool](https://github.com/openshift/source-to-image).
+
 ### Find and get the image you want (VERSION and PLATFORM)
-provided test app:
+
 ```shell
 $ docker search dudash/swift
 $ docker pull dudash/swift-VER-PLATFORM
 ```
 
-### Using with terminal
-Use the `s2i` tool to build the final image that contains your application code
-
-* Hello swift from github example
-```shell
-$ s2i build https://github.com/dudash/openshiftexamples-swift.git dudash/swift-30-ubuntu14 hello-swift
-$ docker run hello-swift
-```
-* Apple's swift example oackage dealr on github (with logging set to 5):
-```shell
-$ s2i build --loglevel 5 https://github.com/apple/example-package-dealer.git dudash/swift-30-ubuntu14 package-dealer
-$ docker run package-dealer
-```
-
-### Local test app
+### Using with the local test app
 Use the `s2i` tool to build the final image that contains your application code - in this case the test app provided in this repo:
 
 ```shell
@@ -62,6 +50,21 @@ $ s2i build ./3.0/test/test-app/ dudash/swift-30-ubuntu14 swift-test-app
 Finally, run your application in a container to see that it worked (swift-test-app is the image you created using s2i):
 ```shell
 $ docker run swift-test-app
+```
+
+### Using with github projects
+
+Use the `s2i` tool to build the final image that contains your application code
+
+* Hello swift from github example
+```shell
+$ s2i build https://github.com/dudash/openshiftexamples-swift.git dudash/swift-30-ubuntu14 hello-swift
+$ docker run hello-swift
+```
+* Apple's swift example package-dealer on github (with logging set to 5):
+```shell
+$ s2i build --loglevel 5 https://github.com/apple/example-package-dealer.git dudash/swift-30-ubuntu14 package-dealer
+$ docker run package-dealer
 ```
 
 ### How to structure your code
@@ -89,10 +92,6 @@ TBD commands to install
 
 
 ## Building this repo
-
-### Build prereqs
-* s2i
-* docker-squash
 
 ### Build 
 To prepare the s2i builder image (for builing on Ubuntu 14.04 & Swift 3.0):
