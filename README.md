@@ -85,12 +85,11 @@ You can just point s2i to a folder of swift files and it will compile them into 
 
 ### Using in Open Shift
 
-We can install the S2I Swift image with a template to be used for integrating Swift source code repositories:
+You can install the S2I Swift images from with templates:
 ```shell
-$ oc create -n openshift -f https://raw.githubusercontent.com/dudash/s2i-swift/master/openshift-resources/swift-30-linux-all-imagestreamlist.json
+$ oc create -n openshift -f https://raw.githubusercontent.com/dudash/s2i-swift/master/openshift-resources/swift-all-ubuntu14-imagestreamlist.json
 ```
-(note: drop the -n openshift if you don't have admin rights... or ask your admin to create it)
-
+(note: drop the ```-n openshift``` if you don't have admin rights... or ask your admin to create it)
 
 ## Building this repo
 
