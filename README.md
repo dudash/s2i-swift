@@ -27,21 +27,16 @@ OS versions available
 
 ## Using this image
 
-### Local test app
-Use the `s2i` tool to build the final image that contains your application code - in this case the provided test app:
+### Find and get the image you want (VERSION and PLATFORM)
+provided test app:
 ```shell
-$ s2i build ./3.0/test/test-app/ dudash/swift-30-ubuntu14 swift-test-app
-```
-* `./3.0/test/test-app/` is the top directory of the source code (replace test path with your code's path).
-* `openshift/swift-30-ubuntu14` is the name of the s2i builder image created by `make build` above (including the repo).
-* `swift-test-app` is the name of the new application image that contains your app built from source code.
-
-Finally, run your application in a container to see that it worked (swift-test-app is the image you created using s2i):
-```shell
-$ docker run swift-test-app
+$ docker search dudash/swift
+$ docker pull dudash/swift-VER-PLATFORM
 ```
 
-### Other use examples
+### Using with terminal
+Use the `s2i` tool to build the final image that contains your application code
+
 * Hello swift from github example
 ```shell
 $ s2i build https://github.com/dudash/openshiftexamples-swift.git dudash/swift-30-ubuntu14 hello-swift
@@ -53,14 +48,21 @@ $ s2i build --loglevel 5 https://github.com/apple/example-package-dealer.git dud
 $ docker run package-dealer
 ```
 
-### Using in Open Shift
+### Local test app
+Use the `s2i` tool to build the final image that contains your application code - in this case the test app provided in this repo:
 
-We can create a custom builder image in Open Shift to build this S2I image and push it into your OpenShift registry:
-TBD image stream template
+```shell
+$ git clone https://github.com/dudash/s2i-swift.git
+$ s2i build ./3.0/test/test-app/ dudash/swift-30-ubuntu14 swift-test-app
+```
+* `./3.0/test/test-app/` is the top directory of the source code (replace test path with your code's path).
+* `openshift/swift-30-ubuntu14` is the name of the s2i builder image created by `make build` above (including the repo).
+* `swift-test-app` is the name of the new application image that contains your app built from source code.
 
-We can install the S2I Swift image with a template to be used for integrating Swift source code repositories:
-TBD commands to install
-
+Finally, run your application in a container to see that it worked (swift-test-app is the image you created using s2i):
+```shell
+$ docker run swift-test-app
+```
 
 ### How to structure your code
 
@@ -75,6 +77,15 @@ You can just point s2i to a folder of swift files and it will compile them into 
 
 * EXTRA_COMPILE_OPTIONS to pass extra options to swiftc
   e.g. s2i build -e "EXTRA_COMPILE_OPTIONS='-Xcc -fmodule-map-file=libbsd.modulemap'"
+
+
+### Using in Open Shift
+
+We can create a custom builder image in Open Shift to build this S2I image and push it into your OpenShift registry:
+TBD image stream template
+
+We can install the S2I Swift image with a template to be used for integrating Swift source code repositories:
+TBD commands to install
 
 
 ## Building this repo
