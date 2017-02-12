@@ -21,7 +21,7 @@
               "openshift.io/display-name": "Swift Ubuntu 14 (Latest)",
               "description": "Build and run Swift applications on Ubuntu 14. For more information about using this builder image, including OpenShift considerations, see https://github.com/dudash/s2i-swift",
               "iconClass": "fa fa-apple",
-              "tags": "builder,swift",
+              "tags": "builder,swift,swift-3.0.2",
               "supports":"swift:3,swift:3.0,swift",
               "sampleRepo": "https://github.com/dudash/openshiftexamples-hellokitura"
             },
@@ -36,7 +36,7 @@
               "openshift.io/display-name": "Swift 3.0 Ubuntu 14",
               "description": "Build and run Swift 3.0 applications on Ubuntu 14. For more information about using this builder image, including OpenShift considerations, see https://github.com/dudash/s2i-swift",
               "iconClass": "fa fa-apple",
-              "tags": "builder,swift,swift-30",
+              "tags": "builder,swift,swift-30,swift-3.0.2",
               "supports":"swift:3,swift:3.0,swift",
               "sampleRepo": "https://github.com/dudash/openshiftexamples-hellokitura"
             },
@@ -51,7 +51,7 @@
               "openshift.io/display-name": "Swift 3.0.2 Ubuntu 14",
               "description": "Build and run Swift 3.0 applications on Ubuntu 14. For more information about using this builder image, including OpenShift considerations, see https://github.com/dudash/s2i-swift",
               "iconClass": "fa fa-apple",
-              "tags": "builder,swift,swift-30",
+              "tags": "builder,swift,swift-30,swift-3.0.2",
               "supports":"swift:3,swift:3.0,swift",
               "version": "3.0.2",
               "sampleRepo": "https://github.com/dudash/openshiftexamples-hellokitura"
