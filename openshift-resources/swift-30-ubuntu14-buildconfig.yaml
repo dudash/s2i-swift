@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: BuildConfig
 metadata:
-  name: swift-30-ubuntu14-build
+  name: swift-30-ubuntu14-builder
   namespace: openshift
 spec:
   triggers:
