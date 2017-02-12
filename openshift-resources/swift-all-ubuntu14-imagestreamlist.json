@@ -8,6 +8,7 @@
       "apiVersion": "v1",
       "metadata": {
         "name": "swift-ubuntu",
+        "creationTimestamp": null,
         "annotations": {
           "openshift.io/display-name": "Swift"
         }
@@ -22,7 +23,7 @@
               "iconClass": "fa fa-apple",
               "tags": "builder,swift",
               "supports":"swift:3,swift:3.0,swift",
-              "sampleRepo": "https://github.com/dudash/openshiftexamples-simpleswift.git"
+              "sampleRepo": "https://github.com/dudash/openshiftexamples-hellokitura"
             },
             "from": {
               "kind": "ImageStreamTag",
@@ -37,7 +38,7 @@
               "iconClass": "fa fa-apple",
               "tags": "builder,swift,swift-30",
               "supports":"swift:3,swift:3.0,swift",
-              "sampleRepo": "https://github.com/dudash/openshiftexamples-simpleswift.git"
+              "sampleRepo": "https://github.com/dudash/openshiftexamples-hellokitura"
             },
             "from": {
               "kind": "ImageStreamTag",
@@ -53,7 +54,7 @@
               "tags": "builder,swift,swift-30",
               "supports":"swift:3,swift:3.0,swift",
               "version": "3.0.2",
-              "sampleRepo": "https://github.com/dudash/openshiftexamples-simpleswift.git"
+              "sampleRepo": "https://github.com/dudash/openshiftexamples-hellokitura"
             },
             "from": {
               "kind": "DockerImage",
