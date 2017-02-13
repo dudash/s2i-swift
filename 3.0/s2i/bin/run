@@ -7,7 +7,7 @@
 
 # assemble script built the app exec and placed it in the /opt/app-root folder
 
-exec /opt/app-root/app
+exec /opt/app-root/bin/app
 
 # TODO: determine the executable that was built.  Might be named differently by Swift package manager
 #exec /opt/app-root/XXX

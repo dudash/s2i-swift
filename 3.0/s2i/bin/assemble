@@ -37,6 +37,7 @@ echo "PWD is ${PWD}"
 echo "---> Preparing source..."
 cp -Rf /tmp/src/. ./
 cd ./
+mkdir -p ../bin
 
 echo "---> Compiling and installing application source..."
 if [ -f Package.swift ]; then
@@ -48,13 +49,14 @@ if [ -f Package.swift ]; then
 	swift build -v -c debug
 	#echo "   ... building as a Swift package based on Package.swift (RELEASE MODE)"
 	#swift build -v -c release
+	cp -R ./.build/debug/* ../bin
 	find ./.build/debug -maxdepth 1 -type f -executable | while read line; do
 		echo "   ... copying EXEC to run dir: ${line}"
-		cp ${line} ../app
+		cp ${line} ../bin/app
 	done
 else
 	echo "   ... building as flat swift files and outputting as an executable named app"
-	swiftc *.swift $EXTRA_COMPILE_OPTIONS -v -o ../app
+	swiftc *.swift $EXTRA_COMPILE_OPTIONS -v -o ../bin/app
 fi
 
 echo "---> Build completed at $(date)"

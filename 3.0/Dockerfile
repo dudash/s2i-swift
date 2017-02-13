@@ -62,6 +62,8 @@ RUN apt-get -q update && \
     curl \
     python2.7-dev \
     libxml2 \
+    libcurl4-openssl-dev \
+    libssl-dev \
     libbsd-dev && \
     update-alternatives --install /usr/bin/clang clang /usr/bin/clang-3.6 100 && \
     update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-3.6 100 && \

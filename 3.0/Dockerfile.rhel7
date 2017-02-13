@@ -35,6 +35,8 @@ RUN yum repolist > /dev/null && \
     rpm -e --nodeps redhat-logos && \
     yum clean all -y
 
+# TODO: we are probably going to have to build swift from source and remove the below download
+
 # Install actual SWIFT version 3.0.x
 # Note: 3.1 will use a different S2I so only PATCH_VERSIONS differences will update *this* image
 RUN DOWNLOAD_URL=https://swift.org/builds/swift-3.0.2-release/ubuntu1404/swift-3.0.2-RELEASE/swift-3.0.2-RELEASE-ubuntu14.04.tar.gz && \
