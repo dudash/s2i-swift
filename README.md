@@ -86,7 +86,7 @@ You can install the S2I Swift images from with templates:
 $ oc create -n openshift -f https://raw.githubusercontent.com/dudash/s2i-swift/master/openshift-resources/swift-all-ubuntu14-imagestreamlist.json
 ```
 
-Note: Drop the ```-n openshift``` if you don't have admin rights... or ask your admin to create it)
+Note: Drop the ```-n openshift``` if you don't have admin rights... or ask your admin to create it.
 
 :warning: OpenShift is expects your conatiners to keep running. So some of the above examples are not the best to try in Open Shift.  If you don't have your own code and need an example, try this one: [Hello Kitura](https://github.com/dudash/openshiftexamples-hellokitura)
 
@@ -104,7 +104,7 @@ $ make build VERSION=3.0 TARGET=ubuntu14
 ### Repo organization
 <pre>
 **[swift-version]**: Dockerfile to build container images from
-**[swift-version/test/test-app]**: Sample application used for tests
+**[swift-version]/test/test-app**: Sample application used for tests
 **hack/**: Folder containing scripts which are responsible for the build and test actions performed by the Makefile
 **s2i/**: Build scripts which will be injected into the builder image and executed during application source code builds
 </pre>
