@@ -13,7 +13,7 @@ For more information about the open source Swift programming language goto the [
 
 <h3>Below you can read how to build and how to use.  FYI, you don't have to build this repo, you can use a prebuilt image - I'll try to keep updated versions of it available on docker hub.<h3>
 
-[![docker hub stats](http://dockeri.co/image/dudash/swift-30-ubuntu14)](https://hub.docker.com/r/dudash/swift-30-ubuntu/)
+[![docker hub stats](http://dockeri.co/image/dudash/swift-30-ubuntu14)](https://hub.docker.com/r/dudash/swift-30-ubuntu14/)
 
 
 ## Versions available
@@ -77,11 +77,7 @@ You can build swift apps for linux that leverage Swift Package Manager.  The bui
 
 **Straight Source Builds**
 
-You can just point s2i to a folder of swift files and it will compile them into an executable.
-
-* EXTRA_COMPILE_OPTIONS to pass extra options to swiftc
-  e.g. s2i build -e "EXTRA_COMPILE_OPTIONS='-Xcc -fmodule-map-file=libbsd.modulemap'"
-
+You can just point s2i to a folder of swift files and it will compile them into an executable.  Note you will need a main.swift file for Swift to execute.
 
 ### Using in Open Shift
 
@@ -89,7 +85,11 @@ You can install the S2I Swift images from with templates:
 ```shell
 $ oc create -n openshift -f https://raw.githubusercontent.com/dudash/s2i-swift/master/openshift-resources/swift-all-ubuntu14-imagestreamlist.json
 ```
-(note: drop the ```-n openshift``` if you don't have admin rights... or ask your admin to create it)
+
+Note: Drop the ```-n openshift``` if you don't have admin rights... or ask your admin to create it)
+
+:warning: OpenShift is expects your conatiners to keep running. So some of the above examples are not the best to try in Open Shift.  If you don't have your own code and need an example, try this one: [Hello Kitura](https://github.com/dudash/openshiftexamples-hellokitura)
+
 
 ## Building this repo
 
